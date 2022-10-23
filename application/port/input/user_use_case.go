@@ -11,4 +11,5 @@ type UserUseCase interface {
 	UpdateUserByID(*domain.UserDomain) *rest_errors.RestErr
 	UpdateUserByEmail(*domain.UserDomain) *rest_errors.RestErr
 	CreateUser(*domain.UserDomain) *rest_errors.RestErr
+	LoginService(string, string) (*domain.UserDomain, *rest_errors.RestErr)
 }
