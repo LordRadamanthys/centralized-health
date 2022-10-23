@@ -1,12 +1,12 @@
-package input
+package output
 
 import (
 	"github.com/LordRadamanthys/centralized-health/application/domain"
 	"github.com/LordRadamanthys/centralized-health/configuration/rest_errors"
 )
 
-type TrainingUseCase interface {
+type TrainingPort interface {
 	GetTrainingByUser(string) (*domain.TrainingDomain, *rest_errors.RestErr)
 	CreateTraining(*domain.TrainingDomain) (*domain.TrainingDomain, *rest_errors.RestErr)
-	UpdateTraining(*domain.TrainingDomain) *rest_errors.RestErr
+	UpdateTraining(*domain.TrainingDomain) (*domain.TrainingDomain, *rest_errors.RestErr)
 }
