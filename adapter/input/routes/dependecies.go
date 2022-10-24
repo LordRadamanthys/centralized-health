@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/LordRadamanthys/centralized-health/adapter/input/controller"
 	"github.com/LordRadamanthys/centralized-health/adapter/output/repository"
-	"github.com/aws/aws-sdk-go/private/model/api/codegentest/service"
+	"github.com/LordRadamanthys/centralized-health/application/service"
 )
 
 type DependeciesRoutes struct {

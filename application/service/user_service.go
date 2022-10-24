@@ -16,26 +16,26 @@ func NewUserService(repository output.UserPort) *userService {
 	}
 }
 
-func GetUserByID(string) (*domain.UserDomain, *rest_errors.RestErr) {
+func (us *userService) GetUserByID(id string) (*domain.UserDomain, *rest_errors.RestErr) {
 	return nil, nil
 }
 
-func GetUserByEmail(string) (*domain.UserDomain, *rest_errors.RestErr) {
+func (us *userService) GetUserByEmail(email string) (*domain.UserDomain, *rest_errors.RestErr) {
 	return nil, nil
 }
 
-func UpdateUserByID(*domain.UserDomain) *rest_errors.RestErr {
+func (us *userService) UpdateUserByID(user *domain.UserDomain) *rest_errors.RestErr {
 	return nil
 }
 
-func UpdateUserByEmail(*domain.UserDomain) (*domain.UserDomain, *rest_errors.RestErr) {
-	return nil, nil
-}
-
-func CreateUser(*domain.UserDomain) *rest_errors.RestErr {
+func (us *userService) UpdateUserByEmail(user *domain.UserDomain) *rest_errors.RestErr {
 	return nil
 }
 
-func LoginService(email string, password string) (*domain.UserDomain, *rest_errors.RestErr) {
+func (us *userService) CreateUser(user *domain.UserDomain) *rest_errors.RestErr {
+	return nil
+}
+
+func (us *userService) LoginService(email string, password string) (*domain.UserDomain, *rest_errors.RestErr) {
 	return nil, nil
 }
