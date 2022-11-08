@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/LordRadamanthys/centralized-health/adapter/input/converter"
 	"github.com/LordRadamanthys/centralized-health/adapter/input/requests"
-	"github.com/LordRadamanthys/centralized-health/application/domain"
 	"github.com/LordRadamanthys/centralized-health/application/port/input"
 	jwtconfig "github.com/LordRadamanthys/centralized-health/configuration/jwt_config"
 	"github.com/LordRadamanthys/centralized-health/configuration/rest_errors"
@@ -30,9 +30,13 @@ func (uc *UserController) LoginController(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
-
 	user, err := uc.userService.LoginService(loginObj.Email, loginObj.Password)
-	token, errJwt := jwtconfig.NewJWTUtils().GeneratedToken(user.ID.String())
+	if err != nil {
+		ctx.JSON(err.Code, err)
+		return
+	}
+	fmt.Println(user)
+	token, errJwt := jwtconfig.NewJWTUtils().GeneratedToken(user.ID)
 
 	if errJwt != nil {
 		ctx.JSON(400, "error to generate token")
@@ -43,8 +47,9 @@ func (uc *UserController) LoginController(ctx *gin.Context) {
 		ctx.JSON(err.Code, err)
 		return
 	}
+	userConv := converter.ConverterDomainIntoResponseUser(user)
 	ctx.Writer.Header().Add("token", token)
-	ctx.JSON(http.StatusOK, user)
+	ctx.JSON(http.StatusOK, userConv)
 }
 
 func (uc *UserController) CreateUser(ctx *gin.Context) {
@@ -98,7 +103,7 @@ func (uc *UserController) GetUserByEmail(ctx *gin.Context) {
 }
 
 func (uc *UserController) UpdateUserByID(ctx *gin.Context) {
-	var user *domain.UserDomain
+	var user *requests.UserRequest
 	header := ctx.GetHeader("Authorization")
 	id, err := jwtconfig.NewJWTUtils().GetId(header)
 	if err != nil {
@@ -117,9 +122,8 @@ func (uc *UserController) UpdateUserByID(ctx *gin.Context) {
 		ctx.JSON(400, "invalid id")
 		return
 	}
-	user.ID = idConv
 
-	errUpdate := uc.userService.UpdateUserByID(user)
+	errUpdate := uc.userService.UpdateUserByID(idConv, user)
 	if errUpdate != nil {
 		ctx.JSON(errUpdate.Code, errUpdate)
 		return
