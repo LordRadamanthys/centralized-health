@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/LordRadamanthys/centralized-health/adapter/input/requests"
 	"github.com/LordRadamanthys/centralized-health/application/domain"
 	"github.com/LordRadamanthys/centralized-health/application/port/output"
 	"github.com/LordRadamanthys/centralized-health/configuration/rest_errors"
@@ -32,8 +33,9 @@ func (us *userService) UpdateUserByEmail(user *domain.UserDomain) *rest_errors.R
 	return nil
 }
 
-func (us *userService) CreateUser(user *domain.UserDomain) *rest_errors.RestErr {
-	return nil
+func (us *userService) CreateUser(user *requests.UserRequest) *rest_errors.RestErr {
+
+	return us.userRepository.CreateUser(user)
 }
 
 func (us *userService) LoginService(email string, password string) (*domain.UserDomain, *rest_errors.RestErr) {

@@ -1,7 +1,11 @@
 package repository
 
 import (
+	"context"
+
+	"github.com/LordRadamanthys/centralized-health/adapter/input/requests"
 	"github.com/LordRadamanthys/centralized-health/application/domain"
+	"github.com/LordRadamanthys/centralized-health/configuration/database/mongodb"
 	"github.com/LordRadamanthys/centralized-health/configuration/rest_errors"
 )
 
@@ -27,6 +31,10 @@ func (*userRepository) UpdateUserByEmail(*domain.UserDomain) (*domain.UserDomain
 	return nil, nil
 }
 
-func (*userRepository) CreateUser(*domain.UserDomain) *rest_errors.RestErr {
+func (*userRepository) CreateUser(user *requests.UserRequest) *rest_errors.RestErr {
+	_, err := mongodb.MongoConnection.Collection("users").InsertOne(context.TODO(), user)
+	if err != nil {
+		return rest_errors.NewBadRequestError(err.Error())
+	}
 	return nil
 }

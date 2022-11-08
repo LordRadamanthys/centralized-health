@@ -12,6 +12,7 @@ func NewExamsRepository() *examsRepository {
 }
 
 func (*examsRepository) GetExamByUserID(string) (*domain.ExamsDomain, *rest_errors.RestErr) {
+
 	return nil, nil
 }
 

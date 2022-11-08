@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -23,7 +24,6 @@ func InitMongoDBConnection() {
 	mongoHealthDB := os.Getenv(MONGO_HEALTH_DATABASE)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongoUrl))
-
 	if err != nil {
 		panic(err)
 	}
@@ -39,4 +39,5 @@ func InitMongoDBConnection() {
 	if err := client.Ping(context.Background(), nil); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Connect db")
 }

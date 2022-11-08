@@ -10,6 +10,8 @@ func RoutesUrl() {
 	router.GET("/ping", ping)
 
 	router.POST("/user", dependecies.userController.CreateUser)
+
+	router.Run(":8081")
 }
 
 func ping(ctx *gin.Context) {

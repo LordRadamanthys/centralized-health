@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/LordRadamanthys/centralized-health/adapter/input/requests"
@@ -47,12 +48,13 @@ func (uc *UserController) LoginController(ctx *gin.Context) {
 }
 
 func (uc *UserController) CreateUser(ctx *gin.Context) {
-	var user *domain.UserDomain
+	var user *requests.UserRequest
 
-	if err := ctx.ShouldBindJSON(user); err != nil {
+	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(400, "invalid object")
 	}
 
+	fmt.Println(user)
 	if err := uc.userService.CreateUser(user); err != nil {
 		ctx.JSON(err.Code, err)
 		return
