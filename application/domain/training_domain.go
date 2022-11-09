@@ -3,7 +3,7 @@ package domain
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type TrainingDomain struct {
-	IdUser primitive.ObjectID `copier:"IdUser" json:"id_user"`
+	IdUser primitive.ObjectID `copier:"IdUser" bson:"id_user,omitempty" json:"id_user"`
 	Seg    []TrainingDetails  `copier:"Seg" json:"seg"`
 	Ter    []TrainingDetails  `copier:"Ter" json:"ter"`
 	Qua    []TrainingDetails  `copier:"Qua" json:"qua"`

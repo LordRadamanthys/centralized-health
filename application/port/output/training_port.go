@@ -7,6 +7,6 @@ import (
 
 type TrainingPort interface {
 	GetTrainingByUser(string) (*domain.TrainingDomain, *rest_errors.RestErr)
-	CreateTraining(*domain.TrainingDomain) (*domain.TrainingDomain, *rest_errors.RestErr)
-	UpdateTraining(*domain.TrainingDomain) (*domain.TrainingDomain, *rest_errors.RestErr)
+	CreateTraining(*domain.TrainingDomain) *rest_errors.RestErr
+	UpdateTraining(*domain.TrainingDomain) *rest_errors.RestErr
 }

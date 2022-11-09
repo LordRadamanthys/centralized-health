@@ -10,6 +10,7 @@ func RoutesUrl() {
 	router.GET("/ping", ping)
 
 	router.POST("/user", dependecies.userController.CreateUser)
+	router.PUT("/user", dependecies.userController.UpdateUserByID)
 	router.POST("/login", dependecies.userController.LoginController)
 
 	router.Run(":8081")

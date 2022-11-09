@@ -10,7 +10,7 @@ import (
 type UserPort interface {
 	GetUserByID(string) (*domain.UserDomain, *rest_errors.RestErr)
 	GetUserByEmail(string) (*domain.UserDomain, *rest_errors.RestErr)
-	UpdateUserByID(primitive.ObjectID, *requests.UserRequest) *rest_errors.RestErr
-	UpdateUserByEmail(*requests.UserRequest) (*domain.UserDomain, *rest_errors.RestErr)
+	UpdateUserByID(primitive.ObjectID, *domain.UserDomain) *rest_errors.RestErr
+	UpdateUserByEmail(obj *domain.UserDomain) *rest_errors.RestErr
 	CreateUser(*requests.UserRequest) *rest_errors.RestErr
 }

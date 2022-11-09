@@ -36,7 +36,7 @@ func (uc *UserController) LoginController(ctx *gin.Context) {
 		return
 	}
 	fmt.Println(user)
-	token, errJwt := jwtconfig.NewJWTUtils().GeneratedToken(user.ID)
+	token, errJwt := jwtconfig.NewJWTUtils().GeneratedToken(user.ID.Hex())
 
 	if errJwt != nil {
 		ctx.JSON(400, "error to generate token")
@@ -59,13 +59,12 @@ func (uc *UserController) CreateUser(ctx *gin.Context) {
 		ctx.JSON(400, "invalid object")
 	}
 
-	fmt.Println(user)
 	if err := uc.userService.CreateUser(user); err != nil {
 		ctx.JSON(err.Code, err)
 		return
 	}
 
-	ctx.JSON(200, nil)
+	ctx.JSON(http.StatusCreated, nil)
 }
 
 func (uc *UserController) GetUserByID(ctx *gin.Context) {
@@ -116,10 +115,11 @@ func (uc *UserController) UpdateUserByID(ctx *gin.Context) {
 		return
 	}
 
-	idConv, errConv := primitive.ObjectIDFromHex(id)
+	fmt.Println(id)
+	idConv, errConv := primitive.ObjectIDFromHex(string(id))
 
 	if errConv != nil {
-		ctx.JSON(400, "invalid id")
+		ctx.JSON(400, rest_errors.NewInternalServerError("invalid id: "+errConv.Error(), nil))
 		return
 	}
 

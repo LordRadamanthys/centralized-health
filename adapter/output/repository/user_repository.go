@@ -11,19 +11,21 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+const collection_users_name = "users"
+
 type userRepository struct{}
 
 func NewUserRepository() *userRepository {
 	return &userRepository{}
 }
 
-func (*userRepository) GetUserByID(string) (*domain.UserDomain, *rest_errors.RestErr) {
-	return nil, nil
-}
-
-func (*userRepository) GetUserByEmail(email string) (*domain.UserDomain, *rest_errors.RestErr) {
+func (*userRepository) GetUserByID(id string) (*domain.UserDomain, *rest_errors.RestErr) {
 	var user domain.UserDomain
-	result := mongodb.MongoConnection.Collection("users").FindOne(context.TODO(), bson.M{"email": email})
+	idConv, errConv := primitive.ObjectIDFromHex(id)
+	if errConv != nil {
+		return nil, rest_errors.NewInternalServerError("error to compare id", errConv)
+	}
+	result := mongodb.MongoConnection.Collection(collection_users_name).FindOne(context.TODO(), bson.M{"_id": idConv})
 
 	if err := result.Decode(&user); err != nil {
 		return nil, rest_errors.NewBadRequestError("invalid user")
@@ -32,16 +34,43 @@ func (*userRepository) GetUserByEmail(email string) (*domain.UserDomain, *rest_e
 	return &user, nil
 }
 
-func (*userRepository) UpdateUserByID(id primitive.ObjectID, obj *requests.UserRequest) *rest_errors.RestErr {
+func (*userRepository) GetUserByEmail(email string) (*domain.UserDomain, *rest_errors.RestErr) {
+	var user domain.UserDomain
+	result := mongodb.MongoConnection.Collection(collection_users_name).FindOne(context.TODO(), bson.M{"email": email})
+
+	if err := result.Decode(&user); err != nil {
+		return nil, rest_errors.NewBadRequestError("invalid user")
+	}
+
+	return &user, nil
+}
+
+func (*userRepository) UpdateUserByID(id primitive.ObjectID, obj *domain.UserDomain) *rest_errors.RestErr {
+	filter := bson.M{"_id": id}
+	update := bson.M{"$set": obj}
+
+	_, err := mongodb.MongoConnection.Collection(collection_users_name).UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return rest_errors.NewBadRequestError(err.Error())
+	}
+
 	return nil
 }
 
-func (*userRepository) UpdateUserByEmail(*requests.UserRequest) (*domain.UserDomain, *rest_errors.RestErr) {
-	return nil, nil
+func (*userRepository) UpdateUserByEmail(obj *domain.UserDomain) *rest_errors.RestErr {
+	filter := bson.M{"email": obj.Email}
+	update := bson.M{"$set": obj}
+
+	_, err := mongodb.MongoConnection.Collection(collection_users_name).UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return rest_errors.NewBadRequestError(err.Error())
+	}
+
+	return nil
 }
 
 func (*userRepository) CreateUser(user *requests.UserRequest) *rest_errors.RestErr {
-	_, err := mongodb.MongoConnection.Collection("users").InsertOne(context.TODO(), user)
+	_, err := mongodb.MongoConnection.Collection(collection_users_name).InsertOne(context.TODO(), user)
 	if err != nil {
 		return rest_errors.NewBadRequestError(err.Error())
 	}
