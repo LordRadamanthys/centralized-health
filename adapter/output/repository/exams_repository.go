@@ -11,7 +11,7 @@ func NewExamsRepository() *examsRepository {
 	return &examsRepository{}
 }
 
-func (*examsRepository) GetExamByUserID(string) (*domain.ExamsDomain, *rest_errors.RestErr) {
+func (*examsRepository) GetExamByUserID(id string) (*domain.ExamsDomain, *rest_errors.RestErr) {
 
 	return nil, nil
 }
