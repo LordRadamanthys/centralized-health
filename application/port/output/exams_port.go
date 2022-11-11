@@ -8,5 +8,5 @@ import (
 
 type ExamsPort interface {
 	GetExamByUserID(primitive.ObjectID) (*domain.ExamsDomain, *rest_errors.RestErr)
-	CreateExam(*domain.ExamsDomain) (*domain.ExamsDomain, *rest_errors.RestErr)
+	CreateExam(*domain.ExamsDomain) *rest_errors.RestErr
 }

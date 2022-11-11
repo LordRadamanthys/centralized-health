@@ -34,35 +34,30 @@ func (ts *trainingService) CreateTraining(userID string, obj *requests.TrainingR
 	return ts.trainingRepository.CreateTraining(domain)
 }
 
-func (ts *trainingService) UpdateTraining(userID string, day_week string, request *requests.TrainingDetails) *rest_errors.RestErr {
+func (ts *trainingService) UpdateTraining(userID string, day_week string, request *requests.TrainingRequest) *rest_errors.RestErr {
 
 	trainingDomain, err := ts.GetTrainingByUser(userID)
 	if err != nil {
 		return err
 	}
 
-	details := &domain.TrainingDetails{
-		Muscle:      request.Muscle,
-		Activity:    request.Activity,
-		Series:      request.Series,
-		Repetitions: request.Repetitions,
-	}
+	obj := converter.ConverterRequestIntoDomainTraining(request)
 
 	switch day_week {
 	case "seg":
-		trainingDomain.Seg = []domain.TrainingDetails{*details}
+		trainingDomain.Seg = obj.Seg
 	case "ter":
-		trainingDomain.Ter = []domain.TrainingDetails{*details}
+		trainingDomain.Ter = obj.Ter
 	case "qua":
-		trainingDomain.Qua = []domain.TrainingDetails{*details}
+		trainingDomain.Qua = obj.Qua
 	case "qui":
-		trainingDomain.Qui = []domain.TrainingDetails{*details}
+		trainingDomain.Qui = obj.Qui
 	case "sex":
-		trainingDomain.Sex = []domain.TrainingDetails{*details}
+		trainingDomain.Sex = obj.Sex
 	case "sab":
-		trainingDomain.Sab = []domain.TrainingDetails{*details}
+		trainingDomain.Sab = obj.Sab
 	case "dom":
-		trainingDomain.Dom = []domain.TrainingDetails{*details}
+		trainingDomain.Dom = obj.Dom
 	}
 
 	return ts.trainingRepository.UpdateTraining(trainingDomain)

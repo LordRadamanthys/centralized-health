@@ -7,5 +7,5 @@ import (
 
 type ExamsUseCase interface {
 	GetExamByUser(string) (*domain.ExamsDomain, *rest_errors.RestErr)
-	CreateExam(*domain.ExamsDomain) (*domain.ExamsDomain, *rest_errors.RestErr)
+	CreateExam(string, *domain.ExamsDomain) *rest_errors.RestErr
 }

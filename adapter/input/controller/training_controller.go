@@ -9,17 +9,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type trainingController struct {
+type TrainingController struct {
 	trainingService input.TrainingUseCase
 }
 
-func NewTrainingService(service input.TrainingUseCase) *trainingController {
-	return &trainingController{
+func NewTrainingService(service input.TrainingUseCase) *TrainingController {
+	return &TrainingController{
 		trainingService: service,
 	}
 }
 
-func (tc *trainingController) CreateTraining(ctx *gin.Context) {
+func (tc *TrainingController) CreateTraining(ctx *gin.Context) {
 	var trainingRequest *requests.TrainingRequest
 
 	header := ctx.GetHeader("Authorization")
@@ -42,7 +42,7 @@ func (tc *trainingController) CreateTraining(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, nil)
 }
 
-func (tc *trainingController) GetTraining(ctx *gin.Context) {
+func (tc *TrainingController) GetTraining(ctx *gin.Context) {
 	header := ctx.GetHeader("Authorization")
 
 	id, err := jwtconfig.NewJWTUtils().GetId(header)
@@ -61,7 +61,7 @@ func (tc *trainingController) GetTraining(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, training)
 }
 
-func (tc *trainingController) UpdateTraining(ctx *gin.Context) {
+func (tc *TrainingController) UpdateTraining(ctx *gin.Context) {
 	var trainingRequest *requests.TrainingRequest
 
 	day_week := ctx.Param("day")

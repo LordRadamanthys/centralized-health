@@ -7,7 +7,10 @@ import (
 )
 
 type DependeciesRoutes struct {
-	userController *controller.UserController
+	userController     *controller.UserController
+	examsController    *controller.ExamsController
+	vaccinesController *controller.VaccinesController
+	trainingController *controller.TrainingController
 }
 
 func LoadDependecies() *DependeciesRoutes {
@@ -16,7 +19,22 @@ func LoadDependecies() *DependeciesRoutes {
 	userService := service.NewUserService(userRepository)
 	userController := controller.NewUserController(userService)
 
+	examsRepository := repository.NewExamsRepository()
+	examsService := service.NewExamsService(examsRepository)
+	examsController := controller.NewExamsService(examsService)
+
+	trainingRepository := repository.NewTrainingRepository()
+	trainingService := service.NewTrainingService(trainingRepository)
+	trainingController := controller.NewTrainingService(trainingService)
+
+	vaccinesRepository := repository.NewVaccinesRepository()
+	vaccinesService := service.NewVaccinesService(vaccinesRepository)
+	vaccinesController := controller.NewVaccinesController(vaccinesService)
+
 	return &DependeciesRoutes{
-		userController: userController,
+		userController:     userController,
+		examsController:    examsController,
+		vaccinesController: vaccinesController,
+		trainingController: trainingController,
 	}
 }

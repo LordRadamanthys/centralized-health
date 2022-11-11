@@ -6,6 +6,8 @@ import (
 )
 
 type VaccinesUseCase interface {
-	GetVaccineByUser(string) (*domain.VaccinesDomain, *rest_errors.RestErr)
-	CreateVaccine(*domain.VaccinesDomain) (*domain.VaccinesDomain, *rest_errors.RestErr)
+	GetVaccineByUser(string) ([]*domain.VaccinesDomain, *rest_errors.RestErr)
+	GetVaccineByID(vaccineID string) (*domain.VaccinesDomain, *rest_errors.RestErr)
+	CreateVaccine(string, *domain.VaccinesDomain) *rest_errors.RestErr
+	InsertVaccineDocument(userID string, idVaccine string, fileName string, bufferFile []byte) *rest_errors.RestErr
 }
