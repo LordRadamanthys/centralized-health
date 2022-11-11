@@ -30,8 +30,8 @@ func UploadObject(id string, docType string, fileName string, fileBytes []byte) 
 
 	uploader := s3manager.NewUploader(session)
 	result, err := uploader.Upload(&s3manager.UploadInput{
-		Bucket: aws.String("odontooth"),
-		Key:    aws.String(fmt.Sprintf("%s/%s/%s.jpeg", id, docType, fileName)),
+		Bucket: aws.String("centralized-health-bucket"),
+		Key:    aws.String(fmt.Sprintf("users/%s/%s/%s", id, docType, fileName)),
 		Body:   bytes.NewReader(fileBytes),
 	})
 

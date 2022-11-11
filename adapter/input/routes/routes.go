@@ -15,6 +15,7 @@ func RoutesUrl() {
 
 	router.POST("/vaccines", dependecies.vaccinesController.CreateVaccine)
 	router.GET("/vaccines", dependecies.vaccinesController.GetVaccineByUser)
+	router.PATCH("/vaccines/:idVaccine", dependecies.vaccinesController.InsertDocument)
 
 	router.GET("/training", dependecies.trainingController.GetTraining)
 	router.POST("/training", dependecies.trainingController.CreateTraining)
