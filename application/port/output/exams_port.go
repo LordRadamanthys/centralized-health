@@ -7,6 +7,8 @@ import (
 )
 
 type ExamsPort interface {
-	GetExamByUserID(primitive.ObjectID) (*domain.ExamsDomain, *rest_errors.RestErr)
+	GetExamsByUserID(id primitive.ObjectID) ([]*domain.ExamsDomain, *rest_errors.RestErr)
+	GetExamByID(id primitive.ObjectID) (*domain.ExamsDomain, *rest_errors.RestErr)
 	CreateExam(*domain.ExamsDomain) *rest_errors.RestErr
+	UpdateExam(idExam primitive.ObjectID, obj *domain.ExamsDomain) *rest_errors.RestErr
 }

@@ -23,6 +23,7 @@ func RoutesUrl() {
 
 	router.GET("/exams", dependecies.examsController.GetExamsByUser)
 	router.POST("/exams", dependecies.examsController.CreateExam)
+	router.PATCH("/exams/:idExam", dependecies.examsController.InsertDocument)
 
 	router.Run(":8081")
 }

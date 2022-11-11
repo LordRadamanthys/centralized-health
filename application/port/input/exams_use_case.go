@@ -6,6 +6,8 @@ import (
 )
 
 type ExamsUseCase interface {
-	GetExamByUser(string) (*domain.ExamsDomain, *rest_errors.RestErr)
+	GetExamsByUserID(string) ([]*domain.ExamsDomain, *rest_errors.RestErr)
+	GetExamByID(string) (*domain.ExamsDomain, *rest_errors.RestErr)
 	CreateExam(string, *domain.ExamsDomain) *rest_errors.RestErr
+	InsertExamDocument(string, string, string, []byte) *rest_errors.RestErr
 }

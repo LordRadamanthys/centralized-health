@@ -30,7 +30,7 @@ func (ec *ExamsController) GetExamsByUser(ctx *gin.Context) {
 		return
 	}
 
-	response, errResponse := ec.examsController.GetExamByUser(id)
+	response, errResponse := ec.examsController.GetExamsByUserID(id)
 	if errResponse != nil {
 		ctx.JSON(errResponse.Code, errResponse)
 		return
@@ -66,4 +66,27 @@ func (ec *ExamsController) CreateExam(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, nil)
 
+}
+
+func (ec *ExamsController) InsertDocument(ctx *gin.Context) {
+	header := ctx.GetHeader("Authorization")
+	idExam := ctx.Param("idExam")
+	id, err := jwtconfig.NewJWTUtils().GetId(header)
+	if err != nil {
+		ctx.JSON(err.Code, err)
+		return
+	}
+	fileHeader, _ := ctx.FormFile("file")
+	f, _ := fileHeader.Open()
+	var size int64 = fileHeader.Size
+
+	buffer := make([]byte, size)
+	f.Read(buffer)
+
+	if err := ec.examsController.InsertExamDocument(id, idExam, fileHeader.Filename, buffer); err != nil {
+		ctx.JSON(err.Code, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, nil)
 }
