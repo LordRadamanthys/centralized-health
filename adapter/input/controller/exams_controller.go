@@ -6,7 +6,6 @@ import (
 	"github.com/LordRadamanthys/centralized-health/application/domain"
 	"github.com/LordRadamanthys/centralized-health/application/port/input"
 	jwtconfig "github.com/LordRadamanthys/centralized-health/configuration/jwt_config"
-	"github.com/LordRadamanthys/centralized-health/configuration/rest_errors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -50,11 +49,8 @@ func (ec *ExamsController) CreateExam(ctx *gin.Context) {
 	}
 
 	if err := ctx.ShouldBindJSON(&examDomain); err != nil {
-		restErr := rest_errors.Cause{
-			Field:   "object request",
-			Message: "invalid object",
-		}
-		ctx.JSON(http.StatusBadRequest, restErr)
+
+		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
 
