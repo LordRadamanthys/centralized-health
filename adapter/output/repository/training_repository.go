@@ -25,7 +25,7 @@ func (*trainingRepository) GetTrainingByUser(id string) (*domain.TrainingDomain,
 		return nil, rest_errors.NewInternalServerError("error to compare id", errConv)
 	}
 
-	result := mongodb.MongoConnection.Collection(collection_training_name).FindOne(context.TODO(), bson.M{"_id": idConv})
+	result := mongodb.MongoConnection.Collection(collection_training_name).FindOne(context.TODO(), bson.M{"id_user": idConv})
 	if err := result.Decode(&training); err != nil {
 		return nil, rest_errors.NewBadRequestError("error to find training")
 	}

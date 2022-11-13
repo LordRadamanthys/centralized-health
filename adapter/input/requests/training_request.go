@@ -12,7 +12,7 @@ type TrainingRequest struct {
 
 type TrainingDetails struct {
 	Muscle      string `copier:"Muscle" json:"muscle"`
-	Activity    string `copier:"Activity" json:"Activity"`
+	Activity    string `copier:"Activity" json:"activity"`
 	Series      string `copier:"Series" json:"series"`
 	Repetitions string `copier:"Repetitions" json:"repetitions"`
 }
