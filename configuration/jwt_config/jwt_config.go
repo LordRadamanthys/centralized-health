@@ -33,7 +33,7 @@ func (s *jwtObject) GeneratedToken(id string) (string, error) {
 	claim := &Claim{
 		id,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 2).Unix(),
 			Issuer:    s.issure,
 			IssuedAt:  time.Now().Unix(),
 		},
